@@ -1,0 +1,95 @@
+using System;
+using System.Collections;
+
+class Program
+{
+    static Hashtable carrinho = new Hashtable();
+    static Hashtable catalogoProdutos = new Hashtable();
+
+    static void Main(string[] args)
+    {
+        catalogoProdutos["Produto1"] = 10.0; // Exemplo de produtos no catálogo
+        catalogoProdutos["Produto2"] = 20.0;
+        catalogoProdutos["Produto3"] = 30.0;
+
+        bool continuarCompras = true;
+
+        while (continuarCompras)
+        {
+            Console.WriteLine("Sistema de Carrinho de Compras");
+            Console.WriteLine("1. Adicionar produto ao carrinho");
+            Console.WriteLine("2. Visualizar carrinho");
+            Console.WriteLine("3. Finalizar compra");
+            Console.WriteLine("4. Sair");
+            Console.Write("Escolha uma opção: ");
+            string opcao = Console.ReadLine();
+
+            switch (opcao)
+            {
+                case "1":
+                    AdicionarProdutoAoCarrinho();
+                    break;
+                case "2":
+                    VisualizarCarrinho();
+                    break;
+                case "3":
+                    FinalizarCompra();
+                    break;
+                case "4":
+                    continuarCompras = false;
+                    break;
+                default:
+                    Console.WriteLine("Opção inválida. Tente novamente.");
+                    break;
+            }
+        }
+    }
+
+    static void AdicionarProdutoAoCarrinho()
+    {
+        Console.WriteLine("Catálogo de Produtos:");
+        foreach (DictionaryEntry produto in catalogoProdutos)
+        {
+            Console.WriteLine($"{produto.Key}: R$ {produto.Value}");
+        }
+
+        Console.Write("Digite o nome do produto que deseja adicionar ao carrinho: ");
+        string produtoEscolhido = Console.ReadLine();
+
+        if (catalogoProdutos.ContainsKey(produtoEscolhido))
+        {
+            double preco = (double)catalogoProdutos[produtoEscolhido];
+            carrinho[produtoEscolhido] = preco;
+            Console.WriteLine($"{produtoEscolhido} foi adicionado ao carrinho.");
+        }
+        else
+        {
+            Console.WriteLine("Produto não encontrado no catálogo.");
+        }
+    }
+
+    static void VisualizarCarrinho()
+    {
+        Console.WriteLine("Carrinho de Compras:");
+        double valorTotal = 0;
+
+        foreach (DictionaryEntry item in carrinho)
+        {
+            string produto = (string)item.Key;
+            double preco = (double)item.Value;
+            Console.WriteLine($"{produto}: R$ {preco}");
+            valorTotal += preco;
+        }
+
+        Console.WriteLine($"Valor Total: R$ {valorTotal}");
+        Console.ReadLine();
+    }
+
+    static void FinalizarCompra()
+    {
+        VisualizarCarrinho();
+        Console.WriteLine("Compra finalizada. Obrigado por comprar!");
+        carrinho.Clear();
+        Console.ReadLine(); 
+    }
+}
