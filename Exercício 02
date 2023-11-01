@@ -1,0 +1,60 @@
+using System;
+using System.Collections;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Hashtable agenda = new Hashtable();
+        int maxClientes = 5;
+
+        Console.WriteLine("Cadastro de CPFs e Telefones (limite de 5 clientes)");
+
+        for (int i = 0; i < maxClientes; i++)
+        {
+            Console.Write("Digite o CPF da pessoa (ou 'sair' para encerrar): ");
+            string cpf = Console.ReadLine();
+
+            if (cpf.ToLower() == "sair")
+                break;
+
+            Console.Write("Digite o telefone da pessoa: ");
+            string telefone = Console.ReadLine();
+
+            agenda[cpf] = telefone;
+        }
+
+        Console.WriteLine("\nRegistros na Agenda:");
+
+        foreach (DictionaryEntry entry in agenda)
+        {
+            string cpf = (string)entry.Key;
+            string telefone = (string)entry.Value;
+
+            Console.WriteLine($"CPF: {cpf}, Telefone: {telefone}");
+        }
+
+        Console.WriteLine("\nPesquisa de CPF (Digite 'sair' para encerrar a pesquisa):");
+
+        while (true)
+        {
+            Console.Write("Digite o CPF a ser pesquisado: ");
+            string cpfPesquisa = Console.ReadLine();
+
+            if (cpfPesquisa.ToLower() == "sair")
+                break;
+
+            if (agenda.ContainsKey(cpfPesquisa))
+            {
+                string telefoneEncontrado = (string)agenda[cpfPesquisa];
+                Console.WriteLine($"Telefone encontrado: {telefoneEncontrado}");
+            }
+            else
+            {
+                Console.WriteLine("CPF não encontrado na agenda.");
+            }
+        }
+
+        Console.ReadLine(); 
+    }
+}
